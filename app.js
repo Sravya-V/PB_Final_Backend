@@ -7,9 +7,20 @@ const port = 3000;
 
 const app = express();
 
-// Allow requests only from your Netlify app URL
+// Define allowed origins
+const allowedOrigins = [
+  'https://sweet-sorbet-5077bc.netlify.app',
+  'https://sravyasolutions.netlify.app'
+];
+
 const corsOptions = {
-  origin: 'https://sweet-sorbet-5077bc.netlify.app',
+  origin: function (origin, callback) {
+    if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true, // Allow sending cookies
 };
 
